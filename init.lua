@@ -1,18 +1,18 @@
-local treesitter = require('nvim-treesitter.configs');
-local comments = require('Comment.api');
-local lsp_zero = require('lsp-zero')
+local treesitter = require("nvim-treesitter.configs");
+local comments = require("Comment.api");
+local lsp_zero = require("lsp-zero")
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
 local telescope = require("telescope")
-local builtin = require('telescope.builtin')
+local builtin = require("telescope.builtin")
 local flutterTools = require("flutter-tools")
 telescope.load_extension("flutter")
 lsp_zero.preset("recommended")
 
 -- Settings
 vim.opt.termguicolors = true
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 vim.api.nvim_set_option("clipboard", "unnamedplus")
 vim.api.nvim_set_option("mouse", "")
 vim.opt.relativenumber = true
@@ -31,10 +31,10 @@ vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
-vim.keymap.set('n', '<C-_>', comments.toggle.linewise.current)
+vim.keymap.set("n", "<C-_>", comments.toggle.linewise.current)
 vim.keymap.set("n", "<F5>", telescope.extensions.flutter.commands)
-vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-vim.keymap.set('n', '<C-f>', function()
+vim.keymap.set("n", "<C-p>", builtin.git_files, {})
+vim.keymap.set("n", "<C-f>", function()
 	builtin.grep_string({ search = vim.fn.input("Grep > ") });
 end)
 
@@ -54,10 +54,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 mason.setup()
 mason_lspconfig.setup({
-	'tsserver',
-	'eslint',
-	'lua_ls',
-	'rust_analyzer',
+	"tsserver",
+	"eslint",
+	"lua_ls",
+	"rust_analyzer",
 })
 
 treesitter.setup {
@@ -81,16 +81,14 @@ lsp_zero.on_attach(function(_, bufnr)
 end)
 
 vim.cmd [[packadd packer.nvim]]
-return require('packer').startup(function(use)
-	use 'wbthomason/packer.nvim'
+return require("packer").startup(function(use)
+	use "wbthomason/packer.nvim"
 
 	use {
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {},
+		"rose-pine/neovim",
+		as = "rose-pine",
 		config = function()
-			vim.cmd('colorscheme tokyonight')
+			vim.cmd("colorscheme rose-pine")
 			vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 			vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 			vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
@@ -98,9 +96,9 @@ return require('packer').startup(function(use)
 	}
 
 	use {
-		'numToStr/Comment.nvim',
+		"numToStr/Comment.nvim",
 		config = function()
-			require('Comment').setup()
+			require("Comment").setup()
 		end
 	}
 
@@ -110,37 +108,37 @@ return require('packer').startup(function(use)
 	}
 
 	use {
-		'tpope/vim-fugitive'
+		"tpope/vim-fugitive"
 	}
 
 	use {
-		'nvim-telescope/telescope.nvim',
-		requires = { { 'nvim-lua/plenary.nvim' } }
+		"nvim-telescope/telescope.nvim",
+		requires = { { "nvim-lua/plenary.nvim" } }
 	}
 
 	use(
-		'nvim-treesitter/nvim-treesitter',
-		{ run = ':TSUpdate' }
+		"nvim-treesitter/nvim-treesitter",
+		{ run = ":TSUpdate" }
 	)
 
 	use {
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v3.x',
+		"VonHeikemen/lsp-zero.nvim",
+		branch = "v3.x",
 		requires = {
-			{ 'williamboman/mason.nvim' },
-			{ 'williamboman/mason-lspconfig.nvim' },
-			{ 'neovim/nvim-lspconfig' },
-			{ 'hrsh7th/nvim-cmp' },
-			{ 'hrsh7th/cmp-nvim-lsp' },
-			{ 'L3MON4D3/LuaSnip' },
+			{ "williamboman/mason.nvim" },
+			{ "williamboman/mason-lspconfig.nvim" },
+			{ "neovim/nvim-lspconfig" },
+			{ "hrsh7th/nvim-cmp" },
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "L3MON4D3/LuaSnip" },
 		},
 	}
 
 	use {
-		'akinsho/flutter-tools.nvim',
+		"akinsho/flutter-tools.nvim",
 		requires = {
-			'nvim-lua/plenary.nvim',
-			'stevearc/dressing.nvim',
+			"nvim-lua/plenary.nvim",
+			"stevearc/dressing.nvim",
 		},
 	}
 end)
