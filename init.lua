@@ -46,6 +46,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		"*.dart",
 		"*.rs",
 		"*.js",
+		"*.ts",
 	},
 	callback = function()
 		vim.lsp.buf.format { async = false }
