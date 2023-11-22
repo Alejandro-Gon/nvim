@@ -39,25 +39,35 @@ vim.keymap.set("n", "<C-f>", function()
 end)
 
 -- Configs
+
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = {
 		"*.lua",
 		"*.dart",
 		"*.rs",
 		"*.js",
-		"*.ts",
 	},
 	callback = function()
 		vim.lsp.buf.format { async = false }
 	end
 })
 
-mason.setup()
+lsp_zero.on_attach(function(_, bufnr)
+	lsp_zero.default_keymaps({ buffer = bufnr })
+end)
+
+mason.setup({})
 mason_lspconfig.setup({
-	"tsserver",
-	"eslint",
-	"lua_ls",
-	"rust_analyzer",
+	ensure_installed = {
+		"tsserver",
+		"eslint",
+		"lua_ls",
+		"rust_analyzer",
+		"taplo",
+	},
+	handlers = {
+		lsp_zero.default_setup,
+	},
 })
 
 treesitter.setup {
@@ -75,10 +85,6 @@ flutterTools.setup {
 		enabled = true,
 	},
 }
-
-lsp_zero.on_attach(function(_, bufnr)
-	lsp_zero.default_keymaps({ buffer = bufnr })
-end)
 
 vim.cmd [[packadd packer.nvim]]
 return require("packer").startup(function(use)
