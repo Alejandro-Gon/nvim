@@ -20,7 +20,10 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
+vim.opt.wrap = false
+vim.opt.hlsearch = false
 
 -- Keymaps
 vim.keymap.set("x", "p", [["_dP]])
