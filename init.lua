@@ -15,7 +15,8 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.api.nvim_set_option("clipboard", "unnamedplus")
 vim.api.nvim_set_option("mouse", "")
-vim.opt.relativenumber = true
+vim.opt.nu = true
+vim.opt.relativenumber = true;
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 vim.opt.tabstop = 2
