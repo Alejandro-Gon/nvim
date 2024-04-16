@@ -11,6 +11,20 @@ local flutterTools = require("flutter-tools")
 telescope.load_extension("flutter")
 lsp_zero.preset("recommended")
 
+local servers = {
+	rust_analyzer = {
+		["rust-analyzer"] = {
+			checkOnSave = {
+				command = "clippy",
+			},
+		},
+	},
+	tsserver = {},
+	eslint = {},
+	lua_ls = {},
+	taplo = {},
+}
+
 -- Settings
 vim.opt.termguicolors = true
 vim.g.mapleader = " "
@@ -65,17 +79,21 @@ end)
 
 mason.setup({})
 mason_lspconfig.setup({
-	ensure_installed = {
-		"tsserver",
-		"eslint",
-		"lua_ls",
-		"rust_analyzer",
-		"taplo",
-	},
+	ensure_installed = vim.tbl_keys(servers),
 	handlers = {
 		lsp_zero.default_setup,
 	},
+
 })
+mason_lspconfig.setup_handlers {
+	function(server_name)
+		require('lspconfig')[server_name].setup {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = servers[server_name],
+		}
+	end
+}
 
 treesitter.setup {
 	ensure_installed = { "javascript", "typescript", "dart", "cpp", "dockerfile", "cmake", "go", "kotlin", "java", "toml", "yaml", "c", "lua", "rust" },
