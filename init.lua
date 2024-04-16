@@ -8,6 +8,7 @@ local mason_lspconfig = require("mason-lspconfig")
 local telescope = require("telescope")
 local builtin = require("telescope.builtin")
 local flutterTools = require("flutter-tools")
+local lspconfig = require('lspconfig');
 telescope.load_extension("flutter")
 lsp_zero.preset("recommended")
 
@@ -87,7 +88,7 @@ mason_lspconfig.setup({
 })
 mason_lspconfig.setup_handlers {
 	function(server_name)
-		require('lspconfig')[server_name].setup {
+		lspconfig[server_name].setup {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = servers[server_name],
