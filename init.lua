@@ -20,8 +20,6 @@ local servers = {
 			},
 		},
 	},
-	tsserver = {},
-	eslint = {},
 	lua_ls = {},
 	taplo = {},
 }
@@ -44,7 +42,7 @@ vim.opt.wrap = false
 vim.opt.hlsearch = false
 
 -- Keymaps
-vim.keymap.set("x", "p", [["_dP]])
+vim.keymap.set("x", "p", "P")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>dl", vim.diagnostic.setqflist)
 vim.keymap.set("n", "<leader>/", ":vsplit<cr><C-w>l")
@@ -52,7 +50,7 @@ vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
-vim.keymap.set("n", "<C-_>", comments.toggle.linewise.current)
+vim.keymap.set("n", "<C-/>", comments.toggle.linewise.current)
 vim.keymap.set("n", "<F5>", telescope.extensions.flutter.commands)
 vim.keymap.set("n", "<C-p>", builtin.git_files, {})
 vim.keymap.set("n", "<C-f>", function()
