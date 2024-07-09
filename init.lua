@@ -1,29 +1,3 @@
-require("packer")
-
-local treesitter = require("nvim-treesitter.configs");
-local comments = require("Comment.api");
-local lsp_zero = require("lsp-zero")
-local mason = require("mason")
-local mason_lspconfig = require("mason-lspconfig")
-local telescope = require("telescope")
-local builtin = require("telescope.builtin")
-local flutterTools = require("flutter-tools")
-local lspconfig = require('lspconfig');
-telescope.load_extension("flutter")
-lsp_zero.preset("recommended")
-
-local servers = {
-	rust_analyzer = {
-		["rust-analyzer"] = {
-			checkOnSave = {
-				command = "clippy",
-			},
-		},
-	},
-	lua_ls = {},
-	taplo = {},
-}
-
 -- Settings
 vim.opt.termguicolors = true
 vim.g.mapleader = " "
@@ -41,6 +15,94 @@ vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.hlsearch = false
 
+-- lazy.nvim
+---- Bootstrap
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out,                            "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
+end
+vim.opt.rtp:prepend(lazypath)
+
+---- Setup lazy.nvim
+require("lazy").setup({
+	spec = {
+		"tpope/vim-fugitive",
+			"nvim-treesitter/nvim-treesitter",
+		{
+			"rose-pine/neovim",
+			name = "rose-pine",
+			config = function()
+				vim.cmd("colorscheme rose-pine")
+				vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+				vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+				vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+			end
+		},
+		{
+			"numToStr/Comment.nvim",
+			config = function()
+				require("Comment").setup()
+			end
+		},
+		{
+			"windwp/nvim-autopairs",
+			config = function()
+				require("nvim-autopairs").setup {}
+			end
+		},
+		{
+			"nvim-telescope/telescope.nvim",
+			dependencies = { { "nvim-lua/plenary.nvim" } }
+		},
+		{
+			"VonHeikemen/lsp-zero.nvim",
+			dependencies = {
+				{ "williamboman/mason.nvim" },
+				{ "williamboman/mason-lspconfig.nvim" },
+				{ "neovim/nvim-lspconfig" },
+				{ "hrsh7th/nvim-cmp" },
+				{ "hrsh7th/cmp-nvim-lsp" },
+				{ "L3MON4D3/LuaSnip" },
+			},
+		},
+		{
+			"akinsho/flutter-tools.nvim",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"stevearc/dressing.nvim",
+			},
+		},
+	},
+	-- Configure any other settings here. See the documentation for more details.
+	-- colorscheme that will be used when installing plugins.
+	install = { colorscheme = { "rose-pine" } },
+	-- automatically check for plugin updates
+	checker = { enabled = true },
+})
+--
+
+local treesitter = require("nvim-treesitter.configs");
+local comments = require("Comment.api");
+local lsp_zero = require("lsp-zero")
+local mason = require("mason")
+local mason_lspconfig = require("mason-lspconfig")
+local telescope = require("telescope")
+local builtin = require("telescope.builtin")
+local flutterTools = require("flutter-tools")
+local lspconfig = require('lspconfig');
+telescope.load_extension("flutter")
+lsp_zero.preset("recommended")
+
 -- Keymaps
 vim.keymap.set("x", "p", "P")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
@@ -57,8 +119,19 @@ vim.keymap.set("n", "<C-f>", function()
 	builtin.grep_string({ search = vim.fn.input("Grep > ") });
 end)
 
--- Configs
+local servers = {
+	rust_analyzer = {
+		["rust-analyzer"] = {
+			checkOnSave = {
+				command = "clippy",
+			},
+		},
+	},
+	lua_ls = {},
+	taplo = {},
+}
 
+-- Configs
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = {
 		"*.lua",
