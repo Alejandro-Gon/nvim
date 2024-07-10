@@ -37,7 +37,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	spec = {
 		"tpope/vim-fugitive",
-			"nvim-treesitter/nvim-treesitter",
+		"nvim-treesitter/nvim-treesitter",
 		{
 			"rose-pine/neovim",
 			name = "rose-pine",
@@ -113,6 +113,7 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "<C-/>", comments.toggle.linewise.current)
+vim.keymap.set("n", "<C-_>", comments.toggle.linewise.current)
 vim.keymap.set("n", "<F5>", telescope.extensions.flutter.commands)
 vim.keymap.set("n", "<C-p>", builtin.git_files, {})
 vim.keymap.set("n", "<C-f>", function()
