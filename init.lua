@@ -38,6 +38,7 @@ require("lazy").setup({
 	spec = {
 		"tpope/vim-fugitive",
 		"nvim-treesitter/nvim-treesitter",
+		"tikhomirov/vim-glsl",
 		{
 			"rose-pine/neovim",
 			name = "rose-pine",
