@@ -77,17 +77,16 @@ require("lazy").setup({
 			},
 		},
 		{
-			"akinsho/flutter-tools.nvim",
+			'akinsho/flutter-tools.nvim',
+			lazy = false,
 			dependencies = {
-				"nvim-lua/plenary.nvim",
-				"stevearc/dressing.nvim",
+				'nvim-lua/plenary.nvim',
+				'stevearc/dressing.nvim', -- optional for vim.ui.select
 			},
-		},
+			config = true,
+		}
 	},
-	-- Configure any other settings here. See the documentation for more details.
-	-- colorscheme that will be used when installing plugins.
 	install = { colorscheme = { "rose-pine" } },
-	-- automatically check for plugin updates
 	checker = { enabled = true },
 })
 --
@@ -97,9 +96,9 @@ local comments = require("Comment.api");
 local lsp_zero = require("lsp-zero")
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
-local telescope = require("telescope")
 local builtin = require("telescope.builtin")
 local flutterTools = require("flutter-tools")
+local telescope = require("telescope")
 local lspconfig = require('lspconfig');
 telescope.load_extension("flutter")
 lsp_zero.preset("recommended")
@@ -181,7 +180,5 @@ treesitter.setup {
 }
 
 flutterTools.setup {
-	widget_guides = {
-		enabled = true,
-	},
+	flutter_path = os.getenv("HOME") .. "/flutter/bin/flutter",
 }
