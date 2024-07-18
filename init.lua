@@ -181,4 +181,7 @@ treesitter.setup {
 
 flutterTools.setup {
 	flutter_path = os.getenv("HOME") .. "/flutter/bin/flutter",
+	widget_guides = {
+		enabled = true,
+	},
 }
