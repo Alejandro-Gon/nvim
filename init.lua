@@ -36,6 +36,7 @@ vim.opt.rtp:prepend(lazypath)
 ---- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
+		"ziglang/zig.vim",
 		"tpope/vim-fugitive",
 		"nvim-treesitter/nvim-treesitter",
 		"tikhomirov/vim-glsl",
