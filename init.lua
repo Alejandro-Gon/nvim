@@ -141,6 +141,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		"*.ts",
 		"*.sh",
 		"*.zig",
+		"*.odin",
 	},
 	callback = function()
 		vim.lsp.buf.format { async = false }
