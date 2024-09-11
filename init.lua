@@ -138,7 +138,6 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "odin",
 	callback = function()
-		-- vim.api.nvim_set_keymap("n", "<F5>", ":term odin run .<CR>", { noremap = true, silent = true })
 		vim.api.nvim_set_keymap("n", "<F5>", ":lua vim.fn.system('odin run .')<CR>", { noremap = true, silent = true })
 	end,
 })
