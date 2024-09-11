@@ -127,8 +127,6 @@ local servers = {
 			},
 		},
 	},
-	lua_ls = {},
-	taplo = {},
 }
 
 -- Configs
@@ -168,16 +166,6 @@ mason_lspconfig.setup_handlers {
 			settings = servers[server_name],
 		}
 	end
-}
-
-treesitter.setup {
-	ensure_installed = { "javascript", "typescript", "dart", "cpp", "dockerfile", "cmake", "go", "kotlin", "java", "toml", "yaml", "c", "lua", "rust" },
-	sync_install = false,
-	auto_install = true,
-	highlight = {
-		enable = true,
-		additional_vim_regex_highlighting = true,
-	},
 }
 
 flutterTools.setup {
