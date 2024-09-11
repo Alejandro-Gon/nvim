@@ -113,7 +113,6 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "<C-/>", comments.toggle.linewise.current)
 vim.keymap.set("n", "<C-_>", comments.toggle.linewise.current)
-vim.keymap.set("n", "<F5>", telescope.extensions.flutter.commands)
 vim.keymap.set("n", "<C-p>", builtin.git_files, {})
 vim.keymap.set("n", "<C-f>", function()
 	builtin.grep_string({ search = vim.fn.input("Grep > ") });
@@ -130,6 +129,19 @@ local servers = {
 }
 
 -- Configs
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "dart",
+	callback = function()
+		vim.keymap.set("n", "<F5>", telescope.extensions.flutter.commands)
+	end,
+})
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "odin",
+	callback = function()
+		-- vim.api.nvim_set_keymap("n", "<F5>", ":term odin run .<CR>", { noremap = true, silent = true })
+		vim.api.nvim_set_keymap("n", "<F5>", ":lua vim.fn.system('odin run .')<CR>", { noremap = true, silent = true })
+	end,
+})
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = {
 		"*.lua",
