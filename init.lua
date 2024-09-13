@@ -135,12 +135,34 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "<F5>", telescope.extensions.flutter.commands)
 	end,
 })
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "odin",
-	callback = function()
-		vim.api.nvim_set_keymap("n", "<F5>", ":lua vim.fn.system('odin run .')<CR>", { noremap = true, silent = true })
-	end,
-})
+
+local runners = {
+	{
+		pattern = "zig",
+		cmd = "zig build run",
+	},
+	{
+		pattern = "odin",
+		cmd = "odin run .",
+	},
+	{
+		pattern = "rust",
+		cmd = "cargo run",
+	},
+}
+for _, runner in ipairs(runners) do
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = runner.pattern,
+		callback = function()
+			vim.keymap.set("n", "<F5>", function()
+				vim.cmd.vsplit()
+				vim.cmd.wincmd("l")
+				vim.cmd.terminal(runner.cmd)
+			end)
+		end,
+	})
+end
+
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = {
 		"*.lua",
