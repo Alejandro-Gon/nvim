@@ -72,7 +72,10 @@ require("lazy").setup({
 		},
 		{
 			"akinsho/flutter-tools.nvim",
-			dependencies = { "nvim-lua/plenary.nvim" },
+			dependencies = {
+				'nvim-lua/plenary.nvim',
+				'stevearc/dressing.nvim', -- optional for vim.ui.select
+			},
 			config = function()
 				require("telescope").load_extension("flutter")
 				require("flutter-tools").setup {
@@ -80,7 +83,7 @@ require("lazy").setup({
 					widget_guides = { enabled = true },
 				}
 			end
-		}
+		},
 	},
 })
 vim.api.nvim_create_autocmd("BufWritePre", {
