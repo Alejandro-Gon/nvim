@@ -65,7 +65,7 @@ require("lazy").setup({
 				end)
 				require("mason").setup()
 				require("mason-lspconfig").setup({
-					ensure_installed = { "lua_ls", "zls", "ols", "rust_analyzer", "vtsls" },
+					ensure_installed = { "lua_ls", "zls", "ols", "rust_analyzer", "vtsls", "gopls" },
 					handlers = { lsp_zero.default_setup }
 				})
 			end
@@ -87,7 +87,7 @@ require("lazy").setup({
 	},
 })
 vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*.lua", "*.dart", "*.rs", "*.js", "*.ts", "*.sh", "*.zig", "*.odin" },
+	pattern = { "*.lua", "*.dart", "*.rs", "*.js", "*.ts", "*.sh", "*.zig", "*.odin", "*.go" },
 	callback = function()
 		vim.lsp.buf.format { async = false }
 	end
