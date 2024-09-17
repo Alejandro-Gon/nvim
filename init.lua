@@ -38,6 +38,12 @@ require("lazy").setup({
 			end
 		},
 		{
+			"windwp/nvim-autopairs",
+			config = function()
+				require("nvim-autopairs").setup {}
+			end
+		},
+		{
 			"nvim-telescope/telescope.nvim",
 			config = function()
 				local builtin = require("telescope.builtin")
