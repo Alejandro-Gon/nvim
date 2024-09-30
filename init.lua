@@ -72,7 +72,7 @@ require("lazy").setup({
 				end)
 				require("mason").setup()
 				require("mason-lspconfig").setup({
-					ensure_installed = { "lua_ls", "zls", "ols", "rust_analyzer", "vtsls", "gopls" },
+					ensure_installed = { "lua_ls", "zls", "ols", "rust_analyzer", "gopls", "eslint", "tsserver", },
 					handlers = { lsp_zero.default_setup }
 				})
 			end
