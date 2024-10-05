@@ -57,33 +57,31 @@ require("lazy").setup({
 		},
 		{
 			"VonHeikemen/lsp-zero.nvim",
-			dependencies = {
-				"williamboman/mason.nvim",
-				"williamboman/mason-lspconfig.nvim",
-				"neovim/nvim-lspconfig",
-				"hrsh7th/nvim-cmp",
-				"L3MON4D3/LuaSnip",
-				"hrsh7th/cmp-nvim-lsp", -- Comment to remove suggestions
-			},
+			dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
-				local lsp_zero = require("lsp-zero")
-				lsp_zero.preset("recommended")
-				lsp_zero.on_attach(function(_, bufnr)
-					lsp_zero.default_keymaps({ buffer = bufnr })
+				local lsp = require('lsp-zero').preset({})
+				lsp.on_attach(function(_, bufnr)
+					lsp.default_keymaps({ buffer = bufnr })
 				end)
+				local lspconfig = require("lspconfig")
+				lspconfig.zls.setup {}
+				lspconfig.ols.setup {}
+				lspconfig.rust_analyzer.setup {}
+				lspconfig.gopls.setup {}
+				lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+				lspconfig.tsserver.setup {}
+				lspconfig.eslint.setup {}
+				lsp.setup()
 				require("mason").setup()
 				require("mason-lspconfig").setup({
-					ensure_installed = { "lua_ls", "zls", "ols", "rust_analyzer", "gopls", "eslint", "tsserver", },
-					handlers = { lsp_zero.default_setup }
+					ensure_installed = { "zls", "ols", "rust_analyzer", "gopls", "lua_ls", "tsserver", "eslint" },
+					handlers = { lsp.default_setup }
 				})
 			end
 		},
 		{
 			"akinsho/flutter-tools.nvim",
-			dependencies = {
-				'nvim-lua/plenary.nvim',
-				'stevearc/dressing.nvim', -- optional for vim.ui.select
-			},
+			dependencies = { 'nvim-lua/plenary.nvim', 'stevearc/dressing.nvim' },
 			config = function()
 				require("telescope").load_extension("flutter")
 				require("flutter-tools").setup {
