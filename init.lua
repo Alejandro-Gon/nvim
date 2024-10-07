@@ -68,13 +68,19 @@ require("lazy").setup({
 			end
 		},
 		{
-			"williamboman/mason.nvim",
-			dependencies = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
+			"VonHeikemen/lsp-zero.nvim",
+			dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
 				local lsps = { "zls", "ols", "rust_analyzer", "gopls", "lua_ls", "tsserver", "eslint" }
+				local lsp = require('lsp-zero').preset({})
+				lsp.on_attach(function(_, bufnr) lsp.default_keymaps({ buffer = bufnr }) end)
+				lsp.setup()
 				for _, runner in ipairs(lsps) do require("lspconfig")[runner].setup {} end
 				require("mason").setup()
-				require("mason-lspconfig").setup({ ensure_installed = lsps })
+				require("mason-lspconfig").setup({
+					ensure_installed = lsps,
+					handlers = { lsp.default_setup }
+				})
 				require('cmp').setup({
 					sources = { { name = 'nvim_lsp' } },
 					snippet = { expand = function(args) vim.snippet.expand(args.body) end },
