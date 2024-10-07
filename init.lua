@@ -16,11 +16,10 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
 	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
 	if vim.v.shell_error ~= 0 then
-		vim.api.nvim_echo({
-			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out,                            "WarningMsg" },
-			{ "\nPress any key to exit..." },
-		}, true, {})
+		vim.api.nvim_echo(
+			{ { "Failed to clone lazy.nvim:\n", "ErrorMsg" }, { out, "WarningMsg" }, { "\nPress any key to exit..." } }, true,
+			{}
+		)
 		vim.fn.getchar()
 		os.exit(1)
 	end
@@ -41,9 +40,7 @@ require("lazy").setup({
 		},
 		{
 			"windwp/nvim-autopairs",
-			config = function()
-				require("nvim-autopairs").setup {}
-			end
+			config = function() require("nvim-autopairs").setup {} end
 		},
 		{
 			"nvim-telescope/telescope.nvim",
@@ -56,26 +53,17 @@ require("lazy").setup({
 			end
 		},
 		{
-			"VonHeikemen/lsp-zero.nvim",
-			dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
+			"williamboman/mason.nvim",
+			dependencies = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
-				local lsp = require('lsp-zero').preset({})
-				lsp.on_attach(function(_, bufnr)
-					lsp.default_keymaps({ buffer = bufnr })
-				end)
-				local lspconfig = require("lspconfig")
-				lspconfig.zls.setup {}
-				lspconfig.ols.setup {}
-				lspconfig.rust_analyzer.setup {}
-				lspconfig.gopls.setup {}
-				lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
-				lspconfig.tsserver.setup {}
-				lspconfig.eslint.setup {}
-				lsp.setup()
+				local lsps = { "zls", "ols", "rust_analyzer", "gopls", "lua_ls", "tsserver", "eslint" }
+				for _, runner in ipairs(lsps) do require("lspconfig")[runner].setup {} end
 				require("mason").setup()
-				require("mason-lspconfig").setup({
-					ensure_installed = { "zls", "ols", "rust_analyzer", "gopls", "lua_ls", "tsserver", "eslint" },
-					handlers = { lsp.default_setup }
+				require("mason-lspconfig").setup({ ensure_installed = lsps })
+				require('cmp').setup({
+					sources = { { name = 'nvim_lsp' } },
+					snippet = { expand = function(args) vim.snippet.expand(args.body) end },
+					mapping = require('cmp').mapping.preset.insert({}),
 				})
 			end
 		},
@@ -84,10 +72,11 @@ require("lazy").setup({
 			dependencies = { 'nvim-lua/plenary.nvim', 'stevearc/dressing.nvim' },
 			config = function()
 				require("telescope").load_extension("flutter")
-				require("flutter-tools").setup {
-					flutter_path = os.getenv("HOME") .. "/flutter/bin/flutter",
-					widget_guides = { enabled = true },
-				}
+				require("flutter-tools").setup { flutter_path = os.getenv("HOME") .. "/flutter/bin/flutter", widget_guides = { enabled = true } }
+				vim.api.nvim_create_autocmd("FileType", {
+					pattern = "dart",
+					callback = function() vim.keymap.set("n", "<F5>", require("telescope").extensions.flutter.commands) end,
+				})
 			end
 		},
 	},
@@ -115,9 +104,3 @@ for _, runner in ipairs(runners) do
 		end,
 	})
 end
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "dart",
-	callback = function()
-		vim.keymap.set("n", "<F5>", require("telescope").extensions.flutter.commands)
-	end,
-})
