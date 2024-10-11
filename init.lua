@@ -1,5 +1,7 @@
 vim.opt.undofile = true
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.api.nvim_set_option("clipboard", "unnamedplus")
+vim.api.nvim_set_option("mouse", "")
 vim.opt.nu = true
 vim.keymap.set("n", "<C-s>", vim.diagnostic.setqflist)
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -29,7 +31,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
 	if vim.v.shell_error ~= 0 then
 		vim.api.nvim_echo(
-			{ { "Failed to clone lazy.nvim:\n", "ErrorMsg" }, { out, "WarningMsg" }, { "\nPress any key to exit..." } }, true,
+			{ { "Failed to clone lazy.nvim:\n", "ErrorMsg" }, { out, "WarningMsg" }, { "\nPress any key to exit..." } },
+			true,
 			{}
 		)
 		vim.fn.getchar()
@@ -76,7 +79,8 @@ require("lazy").setup({
 			config = function()
 				local builtin = require("telescope.builtin")
 				vim.keymap.set("n", "<C-p>", builtin.git_files, {})
-				vim.keymap.set("n", "<C-f>", function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end)
+				vim.keymap.set("n", "<C-f>",
+					function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end)
 			end
 		},
 		{
@@ -87,7 +91,10 @@ require("lazy").setup({
 				require("flutter-tools").setup { flutter_path = os.getenv("HOME") .. "/flutter/bin/flutter", widget_guides = { enabled = true } }
 				vim.api.nvim_create_autocmd("FileType", {
 					pattern = "dart",
-					callback = function() vim.keymap.set("n", "<F5>", require("telescope").extensions.flutter.commands) end,
+					callback = function()
+						vim.keymap.set("n", "<F5>",
+							require("telescope").extensions.flutter.commands)
+					end,
 				})
 			end
 		},
