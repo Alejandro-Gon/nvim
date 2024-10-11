@@ -1,13 +1,5 @@
 vim.opt.undofile = true
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.api.nvim_set_option("clipboard", "unnamedplus")
-vim.api.nvim_set_option("mouse", "")
-vim.opt.relativenumber = true;
-vim.opt.wrap = false
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.smartindent = true
 vim.opt.nu = true
 vim.keymap.set("n", "<C-s>", vim.diagnostic.setqflist)
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -58,15 +50,6 @@ require("lazy").setup({
 			end
 		},
 		"tpope/vim-fugitive",
-		{ "windwp/nvim-autopairs", config = function() require("nvim-autopairs").setup {} end },
-		{
-			"nvim-telescope/telescope.nvim",
-			config = function()
-				local builtin = require("telescope.builtin")
-				vim.keymap.set("n", "<C-p>", builtin.git_files, {})
-				vim.keymap.set("n", "<C-f>", function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end)
-			end
-		},
 		{
 			"VonHeikemen/lsp-zero.nvim",
 			dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
@@ -86,6 +69,14 @@ require("lazy").setup({
 					snippet = { expand = function(args) vim.snippet.expand(args.body) end },
 					mapping = require('cmp').mapping.preset.insert({}),
 				})
+			end
+		},
+		{
+			"nvim-telescope/telescope.nvim",
+			config = function()
+				local builtin = require("telescope.builtin")
+				vim.keymap.set("n", "<C-p>", builtin.git_files, {})
+				vim.keymap.set("n", "<C-f>", function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end)
 			end
 		},
 		{
