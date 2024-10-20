@@ -3,6 +3,7 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.api.nvim_set_option("clipboard", "unnamedplus")
 vim.api.nvim_set_option("mouse", "")
 vim.opt.nu = true
+vim.opt.wrap = false
 vim.keymap.set("n", "<C-s>", vim.diagnostic.setqflist)
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*.lua", "*.dart", "*.rs", "*.js", "*.ts", "*.sh", "*.zig", "*.odin", "*.go" },
