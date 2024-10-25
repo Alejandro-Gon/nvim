@@ -10,14 +10,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function() vim.lsp.buf.format { async = false } end
 })
 for _, r in ipairs({
-	{ pattern = "zig",  cmd = "zig build run" },
-	{ pattern = "odin", cmd = "odin run ." },
-	{ pattern = "rust", cmd = "cargo run" }
+	{ pattern = "zig",  cmd = "zig build run",  key = "<F5>" },
+	{ pattern = "zig",  cmd = "zig build test", key = "<F3>" },
+	{ pattern = "odin", cmd = "odin run .",     key = "<F5>" },
+	{ pattern = "rust", cmd = "cargo run",      key = "<F5>" }
 }) do
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = r.pattern,
 		callback = function()
-			vim.keymap.set("n", "<F5>", function()
+			vim.keymap.set("n", r.key, function()
 				vim.cmd.vsplit()
 				vim.cmd.wincmd("l")
 				vim.cmd.terminal(r.cmd)
