@@ -1,31 +1,7 @@
 vim.opt.undofile = true
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.api.nvim_set_option("clipboard", "unnamedplus")
-vim.api.nvim_set_option("mouse", "")
-vim.opt.nu = true
-vim.opt.wrap = false
-vim.keymap.set("n", "<C-s>", vim.diagnostic.setqflist)
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*.lua", "*.dart", "*.rs", "*.js", "*.ts", "*.sh", "*.zig", "*.odin", "*.go" },
-	callback = function() vim.lsp.buf.format { async = false } end
-})
-for _, r in ipairs({
-	{ pattern = "zig",  cmd = "zig build run",  key = "<F5>" },
-	{ pattern = "zig",  cmd = "zig build test", key = "<F3>" },
-	{ pattern = "odin", cmd = "odin run .",     key = "<F5>" },
-	{ pattern = "rust", cmd = "cargo run",      key = "<F5>" }
-}) do
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = r.pattern,
-		callback = function()
-			vim.keymap.set("n", r.key, function()
-				vim.cmd.vsplit()
-				vim.cmd.wincmd("l")
-				vim.cmd.terminal(r.cmd)
-			end)
-		end,
-	})
-end
+vim.opt.mouse = ""
+vim.opt.clipboard = "unnamedplus"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -56,6 +32,18 @@ require("lazy").setup({
 		},
 		"tpope/vim-fugitive",
 		{
+			"nvim-telescope/telescope.nvim",
+			dependencies = { 'nvim-lua/plenary.nvim' },
+			config = function()
+				vim.keymap.set("n", "<C-s>", function() vim.cmd(":Telescope diagnostics") end)
+				vim.keymap.set("n", "<C-b>", function() vim.cmd(":Telescope buffers") end)
+				vim.keymap.set("n", "<C-p>", function() vim.cmd(":Telescope find_files") end)
+				vim.keymap.set("n", "<C-f>", function()
+					require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") })
+				end)
+			end
+		},
+		{
 			"VonHeikemen/lsp-zero.nvim",
 			dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
@@ -74,15 +62,10 @@ require("lazy").setup({
 					snippet = { expand = function(args) vim.snippet.expand(args.body) end },
 					mapping = require('cmp').mapping.preset.insert({}),
 				})
-			end
-		},
-		{
-			"nvim-telescope/telescope.nvim",
-			config = function()
-				local builtin = require("telescope.builtin")
-				vim.keymap.set("n", "<C-p>", builtin.git_files, {})
-				vim.keymap.set("n", "<C-f>",
-					function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end)
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					pattern = { "*.lua", "*.dart", "*.rs", "*.js", "*.ts", "*.sh", "*.zig", "*.odin", "*.go" },
+					callback = function() vim.lsp.buf.format { async = false } end
+				})
 			end
 		},
 		{
@@ -94,8 +77,10 @@ require("lazy").setup({
 				vim.api.nvim_create_autocmd("FileType", {
 					pattern = "dart",
 					callback = function()
-						vim.keymap.set("n", "<F5>",
-							require("telescope").extensions.flutter.commands)
+						vim.keymap.set(
+							"n", "<F5>",
+							require("telescope").extensions.flutter.commands
+						)
 					end,
 				})
 			end
