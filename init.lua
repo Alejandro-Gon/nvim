@@ -48,7 +48,7 @@ require("lazy").setup({
 			dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
 				local lsps = { "zls", "ols", "rust_analyzer", "gopls", "lua_ls", "tsserver",
-					"quick_lint_js" }
+					"eslint" }
 				local lsp = require('lsp-zero').preset({})
 				lsp.on_attach(function(_, bufnr) lsp.default_keymaps({ buffer = bufnr }) end)
 				lsp.setup()
