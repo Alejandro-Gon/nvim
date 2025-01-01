@@ -43,7 +43,7 @@ require("lazy").setup({
 				for _, runner in ipairs(lsps) do require("lspconfig")[runner].setup {} end
 				require("mason").setup()
 				require("mason-lspconfig").setup({ ensure_installed = lsps, handlers = { require('lsp-zero').default_setup } })
-				require('cmp').setup({ sources = { { name = 'nvim_lsp' } }, snippet = { expand = function(args) vim.snippet.expand(args.body) end }, mapping = require('cmp').mapping.preset.insert({}),})
+				require('cmp').setup({sources = {{name = 'nvim_lsp'}}, snippet = {expand = function(args) vim.snippet.expand(args.body) end}, mapping = require('cmp').mapping.preset.insert({})})
 				vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.dart", "*.js", "*.ts", "*.zig" }, callback = function() vim.lsp.buf.format { async = false } end })
 			end
 		},
