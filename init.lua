@@ -47,11 +47,11 @@ require("lazy").setup({
 			"VonHeikemen/lsp-zero.nvim",
 			dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
-				local lsps = { "zls", "ols", "rust_analyzer", "gopls", "lua_ls", "tsserver",
+				local lsps = { "zls", "ols", "rust_analyzer", "gopls", "lua_ls", "ts_ls",
 					"eslint" }
-				local lsp = require('lsp-zero').preset({})
+				local lsp = require('lsp-zero')
 				lsp.on_attach(function(_, bufnr) lsp.default_keymaps({ buffer = bufnr }) end)
-				lsp.setup()
+				lsp.default_setup({})
 				for _, runner in ipairs(lsps) do require("lspconfig")[runner].setup {} end
 				require("mason").setup()
 				require("mason-lspconfig").setup({
