@@ -38,13 +38,13 @@ require("lazy").setup({
 		{
 			"VonHeikemen/lsp-zero.nvim", dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
-				local lsps = { "zls", "ts_ls", "eslint" }
+				local lsps = { "ts_ls", "eslint", "ols", }
 				require('lsp-zero').on_attach(function(_, bufnr) require('lsp-zero').default_keymaps({ buffer = bufnr }) end)
 				for _, runner in ipairs(lsps) do require("lspconfig")[runner].setup {} end
 				require("mason").setup()
 				require("mason-lspconfig").setup({ ensure_installed = lsps, handlers = { require('lsp-zero').default_setup } })
 				require('cmp').setup({sources = {{name = 'nvim_lsp'}}, snippet = {expand = function(args) vim.snippet.expand(args.body) end}, mapping = require('cmp').mapping.preset.insert({})})
-				vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.dart", "*.js", "*.ts", "*.zig" }, callback = function() vim.lsp.buf.format { async = false } end })
+				vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.dart", "*.js", "*.ts", "*.zig", "*.odin", }, callback = function() vim.lsp.buf.format { async = false } end })
 			end
 		},
 		{
