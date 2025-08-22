@@ -20,6 +20,7 @@ require("lazy").setup({
 			"rose-pine/neovim", name = "rose-pine",
 			config = function() vim.cmd("colorscheme rose-pine") end
 		},
+		"tpope/vim-fugitive",
 		{
 			"nvim-telescope/telescope.nvim", dependencies = { 'nvim-lua/plenary.nvim' },
 			config = function()
