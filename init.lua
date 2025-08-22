@@ -18,14 +18,8 @@ require("lazy").setup({
 	spec = {
 		{
 			"rose-pine/neovim", name = "rose-pine",
-			config = function()
-				vim.cmd("colorscheme rose-pine")
-				vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-				vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-				vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-			end
+			config = function() vim.cmd("colorscheme rose-pine") end
 		},
-		"tpope/vim-fugitive",
 		{
 			"nvim-telescope/telescope.nvim", dependencies = { 'nvim-lua/plenary.nvim' },
 			config = function()
@@ -51,7 +45,7 @@ require("lazy").setup({
 			"akinsho/flutter-tools.nvim", dependencies = { 'nvim-lua/plenary.nvim', 'stevearc/dressing.nvim' },
 			config = function()
 				require("telescope").load_extension("flutter")
-				require("flutter-tools").setup { flutter_path = os.getenv("HOME") .. "/flutter/bin/flutter", widget_guides = { enabled = true } }
+				require("flutter-tools").setup { flutter_path = "/usr/bin/flutter", widget_guides = { enabled = true } }
 				vim.api.nvim_create_autocmd("FileType", { pattern = "dart", callback = function() vim.keymap.set("n", "<F5>", require("telescope").extensions.flutter.commands) end })
 			end
 		},
