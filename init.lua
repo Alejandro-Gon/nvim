@@ -29,7 +29,6 @@ require("lazy").setup({
 			end
 		},
 		"tpope/vim-fugitive",
-		"akinsho/flutter-tools.nvim",
 		{
 			"VonHeikemen/lsp-zero.nvim", dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
@@ -40,6 +39,14 @@ require("lazy").setup({
 				require("mason-lspconfig").setup({ ensure_installed = lsps, handlers = { require('lsp-zero').default_setup } })
 				require('cmp').setup({sources = {{name = 'nvim_lsp'}}, snippet = {expand = function(args) vim.snippet.expand(args.body) end}, mapping = require('cmp').mapping.preset.insert({})})
 				vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.dart", "*.ts", "*.odin", }, callback = function() vim.lsp.buf.format { async = false } end })
+			end
+		},
+		{
+			"akinsho/flutter-tools.nvim", dependencies = { 'nvim-lua/plenary.nvim', 'stevearc/dressing.nvim' },
+			config = function()
+				require("telescope").load_extension("flutter")
+				require("flutter-tools").setup { flutter_path = "/usr/bin/flutter", widget_guides = { enabled = true } }
+				vim.api.nvim_create_autocmd("FileType", { pattern = "dart", callback = function() vim.keymap.set("n", "<F5>", require("telescope").extensions.flutter.commands) end })
 			end
 		},
 	},
