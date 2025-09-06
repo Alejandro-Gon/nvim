@@ -45,7 +45,7 @@ require("lazy").setup({
 			"akinsho/flutter-tools.nvim", dependencies = { 'nvim-lua/plenary.nvim', 'stevearc/dressing.nvim' },
 			config = function()
 				require("telescope").load_extension("flutter")
-				require("flutter-tools").setup { flutter_path = "/usr/bin/flutter", widget_guides = { enabled = true } }
+				require("flutter-tools").setup { flutter_path = os.getenv("HOME") .. "/flutter/bin/flutter", widget_guides = { enabled = true } }
 				vim.api.nvim_create_autocmd("FileType", { pattern = "dart", callback = function() vim.keymap.set("n", "<F5>", require("telescope").extensions.flutter.commands) end })
 			end
 		},
