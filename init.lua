@@ -23,6 +23,8 @@ require("lazy").setup({
 		{
 			"nvim-telescope/telescope.nvim", dependencies = { 'nvim-lua/plenary.nvim' },
 			config = function()
+				vim.keymap.set("n", "<C-q>", function() vim.cmd(":Telescope lsp_document_symbols") end)
+				vim.keymap.set("n", "<C-e>", function() vim.cmd(":Telescope lsp_workspace_symbols") end)
 				vim.keymap.set("n", "<C-s>", function() vim.cmd(":Telescope diagnostics") end)
 				vim.keymap.set("n", "<C-p>", function() vim.cmd(":Telescope find_files") end)
 				vim.keymap.set("n", "<C-f>", function() require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") }) end)
