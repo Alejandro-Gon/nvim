@@ -20,6 +20,14 @@ require("lazy").setup({
 			"rose-pine/neovim", name = "rose-pine",
 			config = function() vim.cmd("colorscheme rose-pine") end
 		},
+		"tpope/vim-fugitive",
+		{
+			"karb94/neoscroll.nvim",
+			opts = {},
+			config = function()
+				require('neoscroll').setup({ mappings = {'<C-u>', '<C-d>'}, hide_cursor = false })
+			end
+		},
 		{
 			"nvim-telescope/telescope.nvim", dependencies = { 'nvim-lua/plenary.nvim' },
 			config = function()
@@ -29,11 +37,6 @@ require("lazy").setup({
 				vim.keymap.set("n", "<C-p>", function() vim.cmd(":Telescope find_files") end)
 				vim.keymap.set("n", "<C-f>", function() require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") }) end)
 			end
-		},
-		"tpope/vim-fugitive",
-		{
-			"karb94/neoscroll.nvim",
-			opts = {},
 		},
 		{
 			"VonHeikemen/lsp-zero.nvim", dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
