@@ -32,6 +32,10 @@ require("lazy").setup({
 		},
 		"tpope/vim-fugitive",
 		{
+			"karb94/neoscroll.nvim",
+			opts = {},
+		},
+		{
 			"VonHeikemen/lsp-zero.nvim", dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/nvim-cmp", "L3MON4D3/LuaSnip", "hrsh7th/cmp-nvim-lsp" },
 			config = function()
 				local lsps = { "ts_ls", "eslint", "ols", }
